@@ -48,6 +48,27 @@ class InfoTestCase(TestCase):
         self.assertEqual(scan_pages, bookinfo.scan_pages)
         self.assertEqual(price, bookinfo.price)
 
+    def test_merge_info(self):
+        info1 = BookInfo()
+        info1.isbn = '123456789'
+        info1.title = 'title1'
+        info1.author = ''
+
+        info2 = BookInfo()
+        info2.isbn = '123456789'
+        info2.title = 'title2'
+        info2.author = 'author2'
+        info2.scan_pages = 150
+        info2.price = '25000'
+
+        merged = merge_info(info1, info2)
+        self.assertEqual(info1.isbn, merged.isbn)
+        self.assertEqual(info1.title, merged.title)
+        self.assertEqual(info2.author, merged.author)
+        self.assertEqual(info2.scan_pages, merged.scan_pages)
+        self.assertEqual(info2.price, merged.price)
+        pass
+
 
 if __name__ == '__main__':
     main()

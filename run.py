@@ -32,8 +32,7 @@ def process_dir(dirpath):
         if not bookinfo:
             bookinfo = info
         else:
-            # TODO: merge info to bookinfo
-            pass
+            bookinfo = merge_info(bookinfo, info)
 
     if bookinfo:
         print("%s : %s" % (dirpath, bookinfo.isbn))

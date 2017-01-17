@@ -9,7 +9,6 @@ class BookInfo:
     isbn = None
     owner = None
     title = None
-    origin_title = None
     author = None
     orig_pub_date = None
     orig_title = None
@@ -19,6 +18,37 @@ class BookInfo:
     scan_date = None
     scan_pages = 0
     price = None
+
+
+def merge_info(info1, info2):
+    """
+    Merge two BookInfos into one.
+    info1 has priority on conflict
+    :param info1: BookInfo 1
+    :param info2: BookInfo 2
+    :return: New merged BookInfo
+    """
+    info = BookInfo()
+    info.isbn = _merge_value(info1.isbn, info2.isbn)
+    info.owner = _merge_value(info1.owner, info2.owner)
+    info.title = _merge_value(info1.title, info2.title)
+    info.author = _merge_value(info1.author, info2.author)
+    info.orig_pub_date = _merge_value(info1.orig_pub_date, info2.orig_pub_date)
+    info.orig_title = _merge_value(info1.orig_title, info2.orig_title)
+    info.pub_date = _merge_value(info1.pub_date, info2.pub_date)
+    info.bought_date = _merge_value(info1.bought_date, info2.bought_date)
+    info.bought_price = _merge_value(info1.bought_price, info2.bought_price)
+    info.scan_date = _merge_value(info1.scan_date, info2.scan_date)
+    info.scan_pages = _merge_value(info1.scan_pages, info2.scan_pages)
+    info.price = _merge_value(info1.price, info2.price)
+    return info
+
+
+def _merge_value(value1, value2):
+    if value1:
+        return value1
+    else:
+        return value2
 
 
 def read_info_file(filename, encoding="utf-8"):
@@ -48,32 +78,32 @@ def read_info_lines(lines):
     :param lines: list of lines
     :return: BookInfo instance
     """
-    book = BookInfo()
+    info = BookInfo()
     for line in lines:
         key, value = _parse_line(line)
         if not key:
             continue
         if key == 'isbn':
-            book.isbn = value
+            info.isbn = value
         elif key == 'owner':
-            book.owner = value
+            info.owner = value
         elif key == 'origPubDate':
-            book.orig_pub_date = value
+            info.orig_pub_date = value
         elif key == 'origTitle':
-            book.orig_title = value
+            info.orig_title = value
         elif key == 'pubDate':
-            book.pub_date = value
+            info.pub_date = value
         elif key == 'boughtDate':
-            book.bought_date = value
+            info.bought_date = value
         elif key == 'boughtPrice':
-            book.bought_price = value
+            info.bought_price = value
         elif key == 'scanDate':
-            book.scan_date = value
+            info.scan_date = value
         elif key == 'scanPages':
-            book.scan_pages = int(value)
+            info.scan_pages = int(value)
         elif key == 'price':
-            book.price = value
-    return book
+            info.price = value
+    return info
 
 
 def _parse_line(line):
